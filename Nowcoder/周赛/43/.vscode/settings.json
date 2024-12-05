@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "iomanip": "cpp",
+        "charconv": "cpp",
+        "concepts": "cpp",
+        "ranges": "cpp",
+        "iostream": "cpp",
+        "string_view": "cpp",
+        "span": "cpp"
+    }
+}

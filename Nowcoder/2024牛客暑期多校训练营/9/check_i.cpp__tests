@@ -1,0 +1,47 @@
+[
+	{
+		"correct_answers":
+		[
+			"12"
+		],
+		"test": "2\n10 99\n"
+	},
+	{
+		"correct_answers":
+		[
+			"704"
+		],
+		"test": "6\n100000 999999\n"
+	},
+	{
+		"correct_answers":
+		[
+			"448"
+		],
+		"test": "6\n123456 654321\n"
+	},
+	{
+		"correct_answers":
+		[
+			"1"
+		],
+		"test": "2\n12 18\n"
+	},
+	{
+		"correct_answers":
+		[
+			"6"
+		],
+		"test": "4\n1514 1632\n"
+	},
+	{
+		"correct_answers":
+		[
+			"5"
+		],
+		"test": "4\n1222 1616\n"
+	},
+	{
+		"test": "6\n102556 169590\n"
+	}
+]

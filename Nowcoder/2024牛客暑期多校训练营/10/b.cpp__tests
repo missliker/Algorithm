@@ -1,0 +1,11 @@
+[
+	{
+		"test": "3 3\nint a;\npair<int,int> E6;\npair<pair<double,int>,double> __Fukami;\na\nE6\n__Fukami.first.second\n"
+	},
+	{
+		"test": "3 3\nint b;\npair<pair<int,double>,pair<pair<double,double>,int>> fuck;\npair<pair<int,int>,double> aks;\nfuck.second.first.first\n"
+	},
+	{
+		"test": "1 1\npair<pair<int,double>,pair<pair<double,double>,int>> fuck;\nfuck.second.first.second\n"
+	}
+]

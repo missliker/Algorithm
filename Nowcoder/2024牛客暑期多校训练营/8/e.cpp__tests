@@ -1,0 +1,61 @@
+[
+	{
+		"correct_answers":
+		[
+			"1\n3\n0\n3\n17\n10\n3\n15"
+		],
+		"test": "8\n11\n45\n14\n191\n9810\n20061130\n20080520\n998244353\n"
+	},
+	{
+		"correct_answers":
+		[
+			"1"
+		],
+		"test": "1\n11\n"
+	},
+	{
+		"correct_answers":
+		[
+			"3"
+		],
+		"test": "1\n45\n"
+	},
+	{
+		"correct_answers":
+		[
+			"0"
+		],
+		"test": "1\n14\n"
+	},
+	{
+		"correct_answers":
+		[
+			"3"
+		],
+		"test": "1\n191\n"
+	},
+	{
+		"correct_answers":
+		[
+			"17"
+		],
+		"test": "1\n9810\n"
+	},
+	{
+		"correct_answers":
+		[
+			"10"
+		],
+		"test": "1\n20061130\n"
+	},
+	{
+		"correct_answers":
+		[
+			"3"
+		],
+		"test": "1\n20080520\n"
+	},
+	{
+		"test": "1\n1000000000000\n"
+	}
+]

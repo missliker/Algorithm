@@ -1,0 +1,16 @@
+[
+	{
+		"correct_answers":
+		[
+			"Yes\nYes"
+		],
+		"test": "3 2 2\nab cd\nef gki\nlmn opq\n1.1.1.1 2\nalice 2 ab ef\nbob 1 ef\n8.8.8.8 2\ngoogel 1 lmn\ngg 3 ab ef lmn\ngoogel 8.8.8.8 opq\nbob 1.1.1.1 gki\n"
+	},
+	{
+		"correct_answers":
+		[
+			"No"
+		],
+		"test": "3 1 1\na b\nc d\ne f\n127.0.0.1 1\nuser 1 a\nusers 127.0.0.1 b\n"
+	}
+]
