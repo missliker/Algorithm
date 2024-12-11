@@ -1,0 +1,5 @@
+[
+	{
+		"test": "8\narea A 1 10\ntlewa A 1 10\ntlewa B 0 20\ntlewa B 1 25\ntlewa B 1 30\ntlewa C 1 100\narea C 0 150\ntlewa C 0 180\n"
+	}
+]
