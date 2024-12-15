@@ -17,16 +17,9 @@ auto range(std::size_t begin, std::size_t end, std::size_t step = 1) { return vi
 auto range(std::size_t end) { return views::iota(0UZ, end) | views::stride(1); }
 auto range(range_param param) { return range(param.begin, param.end, param.step); }
 
-// 更新最大值
-// 用法：if (chmax(a, b)) {...}
 bool chmax(auto& x, auto&& y) { return (x < y) ? (x = y, true) : false; }
-
-// 更新最小值
-// 用法：if (chmin(a, b)) {...}
 bool chmin(auto& x, auto&& y) { return (x > y) ? (x = y, true) : false; }
 
-// 找出容器最大值
-// 用法：auto mx = max(v);
 template <typename T>
 auto max(const T& container) {
     if constexpr (not std::ranges::range<T>) {
@@ -39,8 +32,6 @@ auto max(const T& container) {
     }
 }
 
-// 找出容器最小值
-// 用法：auto mn = min(v);
 template <typename T>
 auto min(const T& container) {
     if constexpr (not std::ranges::range<T>) {
@@ -53,8 +44,6 @@ auto min(const T& container) {
     }
 }
 
-// 计算容器元素和
-// 用法：auto s = sum(v);
 template <typename T>
 auto sum(const T& container) {
     if constexpr (not std::ranges::range<T>) {
@@ -66,31 +55,29 @@ auto sum(const T& container) {
     }
 }
 
-// 反转容器
-// 用法：auto r = reversed(v);
 auto reversed(auto a) {
     std::ranges::reverse(a);
     return a;
 }
 
-// 去重容器
-// 用法：auto u = uniqued(v);
+auto shuffled(auto a) {
+    mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+    std::ranges::shuffle(a, rng);
+    return a;
+}
+
 auto uniqued(auto a) {
     std::ranges::sort(a);
     a.erase(std::unique(a.begin(), a.end()), a.end());
     return a;
 }
 
-// 排序容器
-// 用法：auto s = sorted(v, greater<>());
 template <typename... Args>
 auto sorted(auto a, Args&&... args) {
     std::ranges::sort(a, forward<Args>(args)...);
     return a;
 }
 
-// 创建多维向量
-// 用法：auto vec = make_vector(3, 4, 0); // 创建3x4的二维向量，初始值为0
 template <typename T>
 auto make_vector(T x) {
     return x;
@@ -101,24 +88,20 @@ auto make_vector(T1 m, T2 n, Args... arg) {
     return vector(m, make_vector(n, arg...));
 }
 
-// 转置矩阵
-// 用法：auto t = transposed(matrix);
 template <typename T>
 T transposed(T a) {
     if (a.empty()) return a;
-    size_t m = a.size(), n = a[0].size();
+    std::size_t m = a.size(), n = a[0].size();
     T b(n, vector<typename T::value_type::value_type>(m));
-    for (size_t j : range(n)) {
-        for (size_t i : range(m)) {
+    for (std::size_t j : range(n)) {
+        for (std::size_t i : range(m)) {
             b[j][i] = a[i][j];
         }
     }
     return b;
 }
 
-// 打印元组
-// 用法：cout << tuple << '\n';
-template <typename Tuple, typename F, size_t... N>
+template <typename Tuple, typename F, std::size_t... N>
 void TupleCall(Tuple& t, F&& f, std::index_sequence<N...>) {
     (f(get<N>(t)), ...);
 }
@@ -129,137 +112,118 @@ std::ostream& operator<<(std::ostream& out, const std::tuple<Args...>& t) {
     return out;
 }
 
-// 打印pair
-// 用法：cout << pair << '\n';
 template <typename T1, typename T2>
 std::ostream& operator<<(std::ostream& out, const std::pair<T1, T2>& t) {
     return out << t.first << ' ' << t.second;
 }
 
-// 打印vector
-// 用法：cout << vector << '\n';
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::vector<T>& v) {
     for (const auto& elem : v) out << elem << ' ';
     return out;
 }
 
-// 打印多参数
-// 用法：print(a, b, c);
 template <typename T, typename... Args>
 void print(const T& t, const Args&... args) {
-    cout << t;
+    std::cout << t;
     if constexpr (sizeof...(args)) {
-        cout << ' ';
+        std::cout << ' ';
         print(args...);
     } else {
-        cout << '\n';
+        std::cout << '\n';
     }
 }
 
-// 从标准输入读取数据
-// 用法：auto n = rd<int>();
-//      auto vec = rd<int>(n);
 template <typename T = i64>
 auto rd() {
     T tmp;
-    cin >> tmp;
+    std::cin >> tmp;
     return tmp;
 }
 
-// 读取多个值
-// 用法：auto [a, b] = rd<2, int>();
-template <size_t N, typename T = i64>
+template <std::size_t N, typename T = i64>
 auto rd() {
-    array<T, N> res;
-    for (auto& x : res) cin >> x;
+    std::array<T, N> res;
+    for (auto& x : res) std::cin >> x;
     return res;
 }
 
-// 读取n个值
-// 用法：auto vec = rd<int>(n);
 template <typename T = i64>
-auto rd(size_t n, size_t off = 0) {
-    vector<T> v(off + n);
-    for (size_t i : range(off, off + n)) cin >> v[i];
+auto rd(std::size_t n, std::size_t off = 0) {
+    std::vector<T> v(off + n);
+    for (std::size_t i : range(off, off + n)) std::cin >> v[i];
     return v;
+}
+
+constexpr i64 mod = 998244353;
+auto power(auto a, i64 b, i64 p = mod) {
+    i64 res = 1;
+    for (; b; a = 1LL * a * a % p, b /= 2) {
+        if (b % 2) res = (res * a) % p;
+    }
+    return res;
 }
 
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
     cout << fixed << setprecision(20);
 
-    int n = rd();
-    auto v = rd(n);
-    print(v);
-    auto v1 = reversed(v);
-    print(v1);
-    auto v2 = sorted(v);
-    print(v2);
-    auto v3 = sorted(v, greater<int>());
-    print(v3);
-    auto v4 = make_vector(3, 3, 1LL);
-    print(v4);
-    auto v5 = v4;
-    for (int i : range(3)) {
-        for (int j : range(3)) {
-            v5[i][j] = i * 3 + j;
-        }
+    auto [n, m, seed, vmax] = rd<4>();
+    auto a = make_vector(n, 0LL);
+    map<int, i64> f;
+
+    auto rnd = [&]() {
+        i64 ret = seed;
+        seed = (seed * 7 + 13) % 1000000007;
+        return ret;
+    };
+
+    for (auto i : range(n)) {
+        a[i] = rnd() % vmax + 1;
+        f[i] = a[i];
     }
-    print(v5);
-    auto v6 = transposed(v5);
-    print(v6);
-    auto v7 = v3;
-    for (auto i : range(v3.size())) {
-        v7.emplace_back(v3[i]);
-    }
-    print(v7);
-    auto v8 = uniqued(v7);
-    print(v8);
-    auto v9 = make_vector(3, 4, 0LL);
-    for (auto i : range(3)) {
-        for (auto j : range(4)) {
-            v9[i][j] = i * 3 + j;
-        }
-    }
-    print(v9);
-    auto v10 = transposed(v9);
-    print(v10);
+    f[n] = -1;
+    debug(f);
 
-    auto [xa, ya, xb, yb] = rd<4, int>();
-    print(xa, ya, xb, yb);
+    auto split = [&](int i) {
+        auto it = prev(f.upper_bound(i));
+        if (it->first != i) f[i] = it->second;
+    };
 
-    auto mx = max(v), mn = min(v);
-    print(mx, mn);
-
-    auto a = mn, b = mx;
-    print(a, b);
-    chmax(a, mx), chmin(b, mn);
-    print(a, b);
-
-    auto s = sum(v);
-    print(s);
-    auto s1 = sum(v6);
-    print(s1);
-    auto vs = make_vector(3, 4, 5, 0LL);
-    for (auto i : range(3)) {
-        for (auto j : range(4)) {
-            for (auto k : range(5)) {
-                vs[i][j][k] = Rand<int>(1, 50);
+    while (m--) {
+        auto o = rnd() % 4 + 1, l = rnd() % n + 1, r = rnd() % n + 1;
+        if (l > r) swap(l, r);
+        l--;
+        auto x = (o == 3 ? rnd() % (r - l) : rnd() % vmax + 1);
+        split(l), split(r);
+        if (o == 1) {
+            for (auto i = f.find(l); i->first != r; i++) i->second += x;
+        } else if (o == 2) {
+            for (auto i = f.find(l); i->first != r; i = f.erase(i));
+            f[l] = x;
+        } else if (o == 3) {
+            auto v = make_vector(0, array<i64, 2>{});
+            for (auto i = f.find(l); i->first != r; i++) {
+                v.push_back({i->second, next(i)->first - i->first});
             }
+            ranges::sort(v);
+            for (auto [val, pos] : v) {
+                if (x < pos) {
+                    print(val);
+                    break;
+                }
+                x -= pos;
+            }
+        } else {
+            auto y = rnd() % vmax + 1;
+            int ans = 0;
+            for (auto i = f.find(l); i->first != r; i++) {
+                ans = (ans + power(i->second % y, x, y) * (next(i)->first - i->first)) % y;
+            }
+            print(ans);
         }
+        debug(f);
     }
-    print(vs);
-    print(max(vs));
-    print(min(vs));
-
-    auto tmp = max(vs);
-    debug(tmp);
-
-    auto vv = Rand<vector<int>>(n, -10, 10);
-    debug(vv);
-    auto vv2 = sorted(vv, std::ranges::less{}, [](auto x) {return x * x;});
-    debug(vv2);
 
     return 0;
 }
